@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+   http://www.springframework.org/schema/context 
+   http://www.springframework.org/schema/context/spring-context-3.2.xsd
+   http://www.springframework.org/schema/mvc
+   http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+   http://www.springframework.org/schema/task 
+   http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<!-- <context:property-placeholder location="classpath*:/WEB-INF/jdbc.properties" 
+		/> -->
+	<!-- 配置DataSource数据源 支持oracel与mybatis -->
+
+	<mvc:annotation-driven />
+	
+	<context:annotation-config />
+	<context:component-scan base-package="cn.edu.gdut.timetask" />
+	<task:annotation-driven scheduler="timetask" mode="proxy"/>  
+    <task:scheduler id="timetask" pool-size="10"/> 
+
+	<!-- DB BEGIN -->
+	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		
+		<!-- 
+		<property name="url" value="jdbc:mysql://127.0.0.1/test?useUnicode=true&amp;characterEncoding=utf8"/>
+		<property name="username" value="root" />
+		<property name="password" value="8023mm" />
+		 -->
+		
+		<property name="url" value="jdbc:mysql://hhoj.top:3333/hhoj?useUnicode=true&amp;characterEncoding=utf8" />
+		<property name="username" value="qinhang3" />
+		<property name="password" value="8023mmHHoj." />
+		
+		
+		
+	</bean>
+	<!-- <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"> 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
+		name="url" value="jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_haoj" /> <property 
+		name="username" value="2n3k4nlwjw" /> <property name="password" value="yil22zw3ih2kik51w12l0y0w3lyil31mhm04i2w2" 
+		/> </bean> -->
+
+	<!-- Spring提供的myBatis的SqlMap配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="myDataSource" />
+		<property name="configLocation" value="/WEB-INF/mybatis-config.xml" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="myDataSource" />
+	</bean>
+
+	<!-- DB END -->
+	<!-- MAPPER BEGIN -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.edu.gdut.mapper" />
+	</bean>
+	<!-- MAPPER END -->
+
+	<!-- CONTROLLER BEGIN -->
+	<context:component-scan base-package="cn.edu.gdut">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	<!-- CONTROLLER END -->
+
+	<!-- E-MAIL BEGIN -->
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host">
+			<value>smtp.ym.163.com</value>
+		</property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">25000</prop>
+			</props>
+		</property>
+		<property name="username">
+			<value>userinfo@hhoj.top</value>
+		</property>
+		<property name="password">
+			<value>6DwUJWZP7X</value>
+		</property>
+	</bean>
+	<!-- E-MAIL END -->
+	<!-- SPRING UTIL BEGIN -->
+	<bean id="springUtil" class="cn.edu.gdut.util.SpringUtil"/>
+	<!-- SPRING UTIL END -->
+	
+	<!-- PERMISSION CHECK -->
+	<bean id="permissionCheckService" class="cn.edu.gdut.permission.PermissionCheckService">
+		<property name="map">
+			<map>
+				<entry key="contest" value-ref="contestChecker"></entry>
+				<entry key="problem" value-ref="problemChecker"></entry>
+				<entry key="admin" value-ref="adminChecker"></entry>
+				<entry key="status" value-ref="statusChecker"></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="contestChecker" class="cn.edu.gdut.permission.ContestChecker">
+		<property name="needGroupSet">
+			<list>
+				<value>admin</value>
+				<value>god</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="adminChecker" class="cn.edu.gdut.permission.AdminChecker">
+		<property name="needGroupSet">
+			<list>
+				<value>admin</value>
+				<value>god</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="statusChecker" class="cn.edu.gdut.permission.StatusChecker">
+		<property name="needGroupSet">
+			<list>
+				<value>admin</value>
+				<value>god</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="problemChecker" class="cn.edu.gdut.permission.ProblemChecker">
+		<property name="needGroupSet">
+			<list>
+				<value>admin</value>
+				<value>god</value>
+			</list>
+		</property>
+	</bean>
+	<!-- PERMISSION CHECKER END -->
+</beans>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<!-- changes from the defaults -->
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="cacheEnabled" value="false" />
+		<setting name="defaultStatementTimeout" value="10000"/>
+	</settings>
+
+	<!-- 别名 -->
+
+	<typeAliases>
+		<typeAlias type="java.lang.Integer" alias="Integer"/>
+		<typeAlias type="java.lang.String" alias="String"/>
+		<typeAlias type="java.util.Map" alias="Map"/>
+		<typeAlias type="java.util.List" alias="List"/>
+		<typeAlias type="cn.edu.gdut.model.UserinfoModel" alias="UserinfoModel" />
+		<typeAlias type="cn.edu.gdut.model.DBLoggerModel" alias="DBLoggerModel" />
+		<typeAlias type="cn.edu.gdut.model.DBLoggerQuery" alias="DBLoggerQuery"/>
+		<typeAlias type="cn.edu.gdut.model.ProblemModel" alias="ProblemModel"/>
+		<typeAlias type="cn.edu.gdut.model.StatusModel" alias="StatusModel"/>
+		<typeAlias type="cn.edu.gdut.model.StatusQuery" alias="StatusQuery"/>
+		<typeAlias type="cn.edu.gdut.model.ContestModel" alias="ContestModel"/>
+		<typeAlias type="cn.edu.gdut.model.JudgeModel" alias="JudgeModel"/>
+		<typeAlias type="cn.edu.gdut.model.JudgeQuery" alias="judgeQuery"/>
+		<typeAlias type="cn.edu.gdut.model.PermissionModel" alias="PermissionModel"/>
+		<typeAlias type="cn.edu.gdut.model.ProblemQuery" alias="ProblemQuery"/>
+		<typeAlias type="cn.edu.gdut.model.ContestQuery" alias="ContestQuery"/>
+		<typeAlias type="cn.edu.gdut.model.RejudgeQuery" alias="RejudgeQuery"/>
+		<typeAlias type="cn.edu.gdut.model.BugModel" alias="BugModel"/>
+		<typeAlias type="cn.edu.gdut.model.StatusCountQuery" alias="StatusCountQuery"/>
+		<typeAlias type="cn.edu.gdut.model.StatusCountModel" alias="StatusCountModel"/>
+	</typeAliases>
+	
+	<!--  
+	<mappers>
+		<mapper resource="cn/edu/gdut/mapper/UserinfoMapper.xml" />
+		<mapper resource="cn/edu/gdut/mapper/DBLoggerMapper.xml" />
+	</mappers>
+	-->
+
+</configuration>
+

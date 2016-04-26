@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<!-- namespace和定义的Mapper接口对应，并实现其中的方法 -->
+<mapper namespace="com.hoo.mapper.AccountMapper">
+
+	<insert id="insertUser" parameterType="AccountModel">
+	
+       <!-- 配置Mysql主键自动增长 -->   
+      <!--   <selectKey keyProperty="account_id" resultType="int" order="AFTER" >
+           select last_insert_id() as account_id  
+       </selectKey>  --> 
+        insert into account(id,username,password,email,address)values(#{accountId},#{username},#{password},#{email},#{address})
+    </insert>
+
+  <!-- 
+  <select id="getUserByUsername" parameterType="string" resultType="com.huawei.nser.standard.dao.User">
+     select msisdn,sub_id,pwd password,to_char(active_time,'yyyymmdd') activate_time from ec_user where msisdn=#{msisdn} 
+  </select>
+  
+  
+   <insert id="addUser" parameterType="com.huawei.nser.standard.values.ECUserValue">
+       insert into ec_user(msisdn, sub_id, pwd, active_time,remark) values(#{msisdn}, #{sub_id}, #{pwd}, #{active_time},#{remark})
+  </insert>
+
+  
+   <update id="setUserPassword" parameterType="com.huawei.nser.standard.dao.User">
+   　　　update ec_user set pwd = #{password} where msisdn=#{msisdn}
+  </update>  
+  
+   <delete id="delLogincheck" parameterType="com.huawei.nser.standard.values.LoginCheckPO">
+     delete from ec_sys_logincheck  where login_number = #{login_number} and checktype= #{checktype}
+  </delete>
+  -->
+    
+</mapper>
+

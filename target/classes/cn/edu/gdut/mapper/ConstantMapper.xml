@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace和定义的Mapper接口对应，并实现其中的方法 -->
+<mapper namespace="cn.edu.gdut.mapper.ConstantMapper">
+
+	<select id="select" parameterType="java.lang.String" resultType="java.lang.String" >
+		select v from constant
+		where k = #{key}
+	</select>
+	
+	<insert id="insert">
+		insert into constant values(#{0},#{1})
+	</insert>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from constant where k = #{key}
+	</delete>
+	
+	<update id="update">
+		update constant set v = #{1} where k = #{0}
+	</update>
+
+</mapper>

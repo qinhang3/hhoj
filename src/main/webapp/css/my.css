@@ -1,0 +1,9 @@
+
+.sampleText > div > p{
+	font-family: Menlo, Monaco, Consolas, "Courier New",monospace;
+   	margin-bottom: 0px;		
+}
+
+.jumbotron{
+ 	margin-bottom: 0px;
+}

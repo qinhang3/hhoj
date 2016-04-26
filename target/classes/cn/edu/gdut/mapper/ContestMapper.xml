@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace和定义的Mapper接口对应，并实现其中的方法 -->
+<mapper namespace="cn.edu.gdut.mapper.ContestMapper">
+
+	<resultMap type="ContestModel" id="ContestModelMap">
+		<result property="startTime" column="start_time"/>
+		<result property="endTime" column="end_time"/>
+		<result property="createTime" column="create_time"/>
+		<result property="modifyTime" column="modify_time"/>
+		<result property="isPublic" column="is_public"/>
+	</resultMap>
+	
+	<insert id="insert" parameterType="ContestModel">
+		INSERT INTO contest
+			(title,start_time,end_time,create_time,modify_time,problems)
+		VALUES
+			(#{title},#{startTime},#{endTime},now(),now(),#{problems})
+	</insert>
+	
+	<select id="selectById" parameterType="Integer" resultMap="ContestModelMap">
+		SELECT
+			* 
+		FROM contest 
+		WHERE 
+			is_delete = 0
+			and id = #{cid}
+	</select>
+	
+	<update id="update" parameterType="ContestModel">
+		UPDATE contest
+		SET
+			modify_time = now(),
+			title = #{title},
+			start_time = #{startTime},
+			end_time = #{endTime},
+			problems = #{problems}
+		WHERE
+			id=#{id}
+	</update>
+	
+	<update id="setIsPublicById">
+		UPDATE contest
+		SET
+			is_public = #{isPublic}
+		WHERE
+			id=#{id}
+	</update>
+	 
+	
+	
+	<delete id="delete" parameterType="Integer">
+		UPDATE contest 
+		SET 
+			is_delete = 1,
+			modify_time = now() 
+		WHERE 
+			id=#{cid}
+	</delete>
+	
+	<select id="selectByQuery" parameterType="ContestQuery" resultMap="ContestModelMap">
+		SELECT
+			id,title,is_public,start_time,end_time
+		FROM
+			contest
+		WHERE
+			is_delete = 0 and is_public in
+			<foreach collection="isPublicList" item="item" open="(" separator="," close=")">
+   				#{item}
+  			</foreach>
+		ORDER BY 
+			id DESC
+		LIMIT
+			#{beginIndex},#{pageSize}
+	</select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace和定义的Mapper接口对应，并实现其中的方法 -->
+
+<mapper namespace="cn.edu.gdut.mapper.BugMapper">
+
+	<resultMap type="BugModel" id="BugModelMap">
+		<result property="ipAddress" column="ip"/>
+	</resultMap>
+	
+	<insert id="insert" parameterType="BugModel">
+		INSERT INTO 
+			bug(url,description,username,ip)
+		VALUES
+			(#{url},#{description},#{username},#{ipAddress})
+	</insert> 
+	
+	<select id="select" resultMap="BugModelMap">
+		SELECT * FROM bug
+	</select>
+	
+	<update id="update" parameterType="BugModel">
+		UPDATE bug
+		set
+			url = #{url},
+			description = #{description}
+		where
+			id = #{id}
+	</update>
+
+</mapper>

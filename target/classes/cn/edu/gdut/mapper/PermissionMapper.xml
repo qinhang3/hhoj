@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace和定义的Mapper接口对应，并实现其中的方法 -->
+<mapper namespace="cn.edu.gdut.mapper.PermissionMapper">
+ 
+	<insert id="insert" parameterType="PermissionModel">
+		INSERT INTO 
+			permission(`username`,`group`) 
+		VALUES
+			(#{username},#{group})
+	</insert>
+	 
+	<delete id="delete">
+		DELETE FROM 
+			permission
+		WHERE
+			id = #{id} and
+			username = #{username} and
+			`group` = #{group}
+	</delete>
+	<select id="selectGroupByUsername" parameterType="String" resultType="String">
+		SELECT `group` FROM permission WHERE username = #{username}
+	</select>
+	<select id="selectUsernameByGroup" parameterType="String" resultType="String">
+		SELECT username FROM permission WHERE `group` = #{group}
+	</select>
+</mapper>
